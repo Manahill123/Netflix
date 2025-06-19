@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netflix Clone - Modern Design</title>
+  <style>
+    /* Google Fonts for modern vibe */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      background-color: #111;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ✅ Cleaned Background */
+    .background {
+  background: url('https://assets.nflxext.com/ffe/siteui/vlv3/dae6a660-038b-4e2e-a5be-98b1d8f3c172/8fdb7c86-e0e4-41fa-b27a-d3d71677ebcd/US-en-20240520-popsignuptwoweeks-perspective_alpha_website_medium.jpg') no-repeat center center/cover;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+    .overlay {
+      background: linear-gradient(180deg, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.85) 100%);
+      height: 100%;
+      width: 100%;
+      padding: 30px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      width: 120px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+      transition: filter 0.3s ease;
+    }
+
+    .logo:hover {
+      filter: brightness(1) invert(0.8);
+    }
+
+    .right-buttons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    select.language {
+      padding: 8px 14px;
+      background: transparent;
+      color: #eee;
+      border: 1.8px solid #eee;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    select.language:hover, select.language:focus {
+      background-color: #e50914;
+      border-color: #e50914;
+      color: white;
+      outline: none;
+    }
+
+    button.signin-btn {
+      background-color: #e50914;
+      border: none;
+      padding: 10px 25px;
+      color: white;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(229,9,20,0.7);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button.signin-btn:hover {
+      background-color: #f6121d;
+      box-shadow: 0 5px 12px rgba(246,18,29,0.9);
+    }
+
+    .content {
+      text-align: center;
+      margin-top: 8vh;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .content h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-shadow: 2px 2px 12px rgba(0,0,0,0.9);
+    }
+
+    .content h2 {
+      margin-top: 18px;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #ddd;
+      text-shadow: 1px 1px 7px rgba(0,0,0,0.8);
+    }
+
+    .content p {
+      margin-top: 22px;
+      font-size: 1.15rem;
+      color: #ccc;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    }
+
+    .email-form {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .email-form input[type="email"] {
+      padding: 16px 18px;
+      width: 320px;
+      border: none;
+      border-radius: 8px 0 0 8px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .email-form button {
+      padding: 16px 28px;
+      background-color: #e50914;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(229,9,20,0.8);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .email-form button:hover {
+      background-color: #f6121d;
+      box-shadow: 0 5px 15px rgba(246,18,29,0.9);
+    }
+
+    section.trending {
+      padding: 50px 60px;
+      background-color: #141414;
+      user-select: none;
+    }
+
+    section.trending h3 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      color: #e50914;
+      text-transform: uppercase;
+    }
+
+    .movie-row {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: #e50914 transparent;
+      scroll-behavior: smooth;
+    }
+
+    .movie-row::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .movie-row::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .movie-row::-webkit-scrollbar-thumb {
+      background-color: #e50914;
+      border-radius: 10px;
+    }
+
+    .movie-row img {
+      flex-shrink: 0;
+      width: 180px;
+      height: 260px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .movie-row img:hover {
+      transform: scale(1.15) translateY(-8px);
+      box-shadow: 0 15px 30px rgba(229, 9, 20, 0.9);
+      z-index: 10;
+    }
+
+    footer {
+      background-color: #000;
+      padding: 40px 20px;
+      text-align: center;
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    footer .footer-container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    footer .footer-container p {
+      margin-bottom: 20px;
+    }
+
+    footer .footer-container .copyright {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .content h1 {
+        font-size: 2.7rem;
+      }
+      .content h2 {
+        font-size: 1.3rem;
+      }
+      section.trending {
+        padding: 30px 20px;
+      }
+      .movie-row img {
+        width: 140px;
+        height: 210px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .right-buttons {
+        gap: 8px;
+      }
+
+      .email-form input[type="email"],
+      .email-form button {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .email-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="overlay">
+      <header>
+        <img class="logo" src="https://images.ctfassets.net/y2ske730sjqp/1aONibCke6niZhgPxuiilC/2c401b05a07288746ddf3bd3943fbc76/BrandAssets_Logos_01-Wordmark.jpg?w=940" alt="Netflix Logo" />
+        <div class="right-buttons">
+          <select class="language" aria-label="Select Language">
+            <option>English</option>
+            <option>Español</option>
+          </select>
+          <button class="signin-btn" aria-label="Sign In">Sign In</button>
+        </div>
+      </header>
+
+      <div class="content" role="main">
+        <h1>Unlimited movies, TV <br>shows, and more</h1>
+        <h2>Starts at $7.99. Cancel anytime.</h2>
+        <p>Ready to watch? Enter your email to create or restart your membership.</p>
+        <form class="email-form" action="#" method="POST" novalidate>
+          <input type="email" placeholder="Email address" required />
+          <button type="submit">Get Started &gt;</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <section class="trending" aria-label="Trending Movies">
+    <h3>Trending Now</h3>
+    <div class="movie-row" tabindex="0">
+      <img src="https://eagleeye.news/wp-content/uploads/2021/10/khFR6F0wiLc0zHYw4J7mDvdebJ56p4tfvNFvkMAm-900x556.jpeg" alt="Movie 1" />
+      <img src="https://mysticrubs.com/wp-content/uploads/2021/04/outside-the-wire-1024x576.jpg" alt="Movie 2" />
+      <img src="https://source.boomplaymusic.com/buzzgroup1/M00/32/AE/rBEevGHXumKAKqbrAAGqmG-A7hY70.jpeg" alt="Movie 3" />
+      <img src="https://www.geo.tv/assets/uploads/updates/2022-09-26/l_442682_032155_updates.jpg" alt="Movie 4" />
+      <img src="https://shopee.com.my/blog/wp-content/uploads/2022/07/best-family-movies-netflix-malaysia-min-768x576.jpg" alt="Movie 5" />
+    </div>
+  </section>
+
+  <!-- ✅ Clean Footer -->
+  <footer>
+    <div class="footer-container">
+      <p>
+        Netflix is the world’s leading streaming entertainment service with millions of paid memberships in over 190 countries enjoying TV series, documentaries, and feature films across a wide variety of genres and languages. Watch as much as you want, anytime, anywhere.
+      </p>
+      <p class="copyright">© 2025 Netflix Clone Project. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+<!-- ✅ Add Fun Message Before Footer -->
+<div id="fun-message" style="text-align: center; padding: 40px 20px; font-size: 1.2rem; color: #e50914;">
+  🍿 Get comfy... Loading your next favorite binge!
+</div>
+
+<!-- ✅ Add Smiley Emoji -->
+<div style="text-align: center; font-size: 2rem; padding-bottom: 20px;">😊</div>
+
+<!-- ✅ Clean Footer -->
+<footer>
+  <div class="footer-container">
+    <p class="copyright">© 2025 Netflix Clone Project. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ✅ Fun Message Script -->
+<script>
+  const messages = [
+    "🍿 Get comfy... Loading your next favorite binge!",
+    "🎬 Lights. Camera. Couch Mode!",
+    "😎 Streaming so smooth, even your popcorn's jealous.",
+    "🔥 Hot picks, cold snacks, perfect night.",
+    "📺 One more episode... we won’t tell 😉",
+    "🎉 Binge responsibly... or don’t. We won’t judge."
+  ];
+
+  let index = 0;
+  const funMessage = document.getElementById("fun-message");
+
+  setInterval(() => {
+    index = (index + 1) % messages.length;
+    funMessage.textContent = messages[index];
+  }, 4000);
+</script>
